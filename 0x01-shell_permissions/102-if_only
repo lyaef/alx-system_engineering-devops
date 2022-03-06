@@ -1,0 +1,2 @@
+#!/bin/bash
+if only-chown --from=guillaume betty hello
