@@ -1,5 +1,13 @@
-# script that takes care of http requests in high volume address to Nginx
-exec { 'sed increase ULIMIT number in concerned etc/default/nginx file':
-   command => "sed -i 's/15/1024/g' /etc/default/nginx; service nginx restart",
-   path => ['/bin', '/usr/bin', '/usr/sbin']
+# Increases the amount of traffic an Nginx server can handle.
+
+# Increase the ULIMIT of the default file
+exec { 'fix--for-nginx':
+  command => 'sed -i "s/15/4096/" /etc/default/nginx',
+  path    => '/usr/local/bin/:/bin/'
+} ->
+
+# Restart Nginx
+exec { 'nginx-restart':
+  command => 'nginx restart',
+  path    => '/etc/init.d/'
 }
